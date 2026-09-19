@@ -1,0 +1,52 @@
+{
+  "model_name": "heatwave_severity_random_forest",
+  "model_version": "severity-rf-v1.0.0",
+  "algorithm": "RandomForestClassifier(n_estimators=300, min_samples_leaf=2, class_weight=balanced)",
+  "trained_at": "2026-09-19T09:30:22.181847+00:00",
+  "random_state": 42,
+  "features": [
+    "temperature_c",
+    "humidity_pct",
+    "heat_index_c",
+    "wind_speed_kph"
+  ],
+  "label_definition": "NWS heat-index bands: low < 32degC <= moderate < 41degC <= high (computed with the Rothfusz regression in app/utils/heat.py)",
+  "dataset_provenance": "Synthetic, reproducible grid over temperature 20-50degC x humidity 5-100% x wind 2-25km/h; labels derived from the computed heat index. NOT real-world labelled heatwave observations.",
+  "evaluation": {
+    "n_samples": 9516,
+    "n_train": 7137,
+    "n_test": 2379,
+    "accuracy": 1.0,
+    "precision_macro": 1.0,
+    "recall_macro": 1.0,
+    "f1_macro": 1.0,
+    "confusion_matrix": [
+      [
+        1152,
+        0,
+        0
+      ],
+      [
+        0,
+        793,
+        0
+      ],
+      [
+        0,
+        0,
+        434
+      ]
+    ],
+    "classes": [
+      "high",
+      "low",
+      "moderate"
+    ],
+    "recall_high_risk": 1.0
+  },
+  "limitations": [
+    "The model approximates the documented heat-index risk banding; it is not trained on, nor validated against, real historical heatwave outcomes.",
+    "It assesses current-condition heat stress; it is not a future forecast.",
+    "Sentiment is NOT an input to this model; sentiment enters through the documented rule-based fusion layer in the prediction service."
+  ]
+}

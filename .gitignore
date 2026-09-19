@@ -1,0 +1,25 @@
+# --- Python --------------------------------------------------------------------
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# --- Databases & secrets ----------------------------------------------------------
+*.db
+*.sqlite*
+backend/.env
+.env
+
+# --- Node --------------------------------------------------------------------------
+node_modules/
+frontend/dist/
+
+# --- Local tooling & artifacts -------------------------------------------------------
+.tools/
+backend/generated_reports/
+backend/tests/_generated_reports/
+*.log
+
+# --- OS ------------------------------------------------------------------------------
+Thumbs.db
+.DS_Store

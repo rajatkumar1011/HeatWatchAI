@@ -1,0 +1,117 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@theme {
+  /* Brand */
+  --color-brand: #bd1426;
+  --color-brand-strong: #9e1120;
+  --color-brand-tint: #fdf2f4;
+
+  /* Shell */
+  --color-navy: #111827;
+  --color-navy-soft: #1f2937;
+  --color-canvas: #f7f9fc;
+
+  /* Semantic risk */
+  --color-risk-low: #16a34a;
+  --color-risk-moderate: #d97706;
+  --color-risk-high: #dc2626;
+
+  --font-sans: "Inter Variable", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 1px 3px rgb(15 23 42 / 0.06);
+  --shadow-pop: 0 10px 30px rgb(15 23 42 / 0.12);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: #1e293b;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Tabular numerals for metrics, tables, and timestamps */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Consistent focus treatment */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Refined scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Subtle skeleton shimmer */
+@keyframes hw-shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+.hw-skeleton {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #eef2f7 25%, #e2e8f0 37%, #eef2f7 63%);
+  background-size: 800px 100%;
+  animation: hw-shimmer 1.4s ease-in-out infinite;
+}
+
+/* Toast entrance */
+@keyframes hw-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.hw-toast {
+  animation: hw-toast-in 0.18s ease-out;
+}
+
+/* Recharts polish */
+.recharts-cartesian-grid line {
+  stroke: #eef2f7;
+}
+.recharts-default-tooltip {
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.1) !important;
+  font-size: 12px !important;
+}

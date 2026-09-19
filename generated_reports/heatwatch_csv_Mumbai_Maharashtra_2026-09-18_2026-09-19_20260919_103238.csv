@@ -1,0 +1,2 @@
+﻿location,observed_at_utc,temperature_c,humidity_pct,heat_index_c,wind_speed_kph,condition,risk_category,severity_score_0_100,prediction_methodology,sentiment_adjustment,alert_level,data_mode
+"Mumbai, Maharashtra",2026-09-19T10:32:38.700880,41.15,56.7,64.4,5.2,Clear,high,90.3,ml_severity_model:severity-rf-v1.0.0 + rule_fusion_v1,0.3,high,demo

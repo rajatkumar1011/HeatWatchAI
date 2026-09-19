@@ -1,0 +1,66 @@
+# Reproducible local development stack: MySQL 8 + HeatWatch AI backend + frontend.
+# The MySQL service is the documented production database target (SRS 2.3.3).
+#
+# Usage (requires Docker Desktop):
+#   docker compose up --build
+#   # backend:  http://localhost:5000   frontend: http://localhost:5173
+#   # then, one-time, from the backend container or a host venv:
+#   #   flask db upgrade && python create_admin.py ... && python seed_demo.py
+#
+# NOTE: this compose file was authored for machines with Docker available;
+# the delivering environment did not have Docker installed, so it has not been
+# executed here. Local Windows verification used the SQLite fallback documented
+# in README.md.
+
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: heatwatch-root
+      MYSQL_DATABASE: heatwatch
+      MYSQL_USER: heatwatch
+      MYSQL_PASSWORD: heatwatch
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uheatwatch", "-pheatwatch"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      FLASK_ENV: production
+      DATABASE_URL: mysql+pymysql://heatwatch:heatwatch@mysql:3306/heatwatch?charset=utf8mb4
+      DATA_MODE: auto
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      SECRET_KEY: ${SECRET_KEY:-change-me}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-too}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    command: >
+      sh -c "flask --app run.py db upgrade &&
+             python create_admin.py --username admin --email admin@heatwatch.local --password Admin#12345 || true &&
+             python seed_demo.py || true &&
+             python run.py"
+
+  frontend:
+    image: node:24-alpine
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- --host"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+
+volumes:
+  mysql-data:

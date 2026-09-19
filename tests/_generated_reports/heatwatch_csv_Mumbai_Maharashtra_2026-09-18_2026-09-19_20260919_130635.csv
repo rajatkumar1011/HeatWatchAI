@@ -1,0 +1,2 @@
+﻿location,observed_at_utc,temperature_c,humidity_pct,heat_index_c,wind_speed_kph,condition,risk_category,severity_score_0_100,prediction_methodology,sentiment_adjustment,alert_level,data_mode
+"Mumbai, Maharashtra",2026-09-19T13:06:34.972509,41.97,59.1,70.17,12.7,Haze,high,90.3,ml_severity_model:severity-rf-v1.0.0 + rule_fusion_v1,0.3,high,demo
